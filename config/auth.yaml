@@ -1,0 +1,8 @@
+mongo:
+  ip: 127.0.0.1
+  port: 27017
+  database: event-auth
+
+# JWT 설정
+jwt:
+  secret: 'default'
