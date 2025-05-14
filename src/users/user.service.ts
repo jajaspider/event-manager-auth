@@ -35,7 +35,8 @@ export class UserService {
                 user_id,
                 password: hashedPassword,
                 nickname,
-                hash
+                hash,
+                role: 'user'
             });
 
             let savedUser = await createdUser.save();
@@ -51,5 +52,53 @@ export class UserService {
     async findAllUsers(): Promise<Partial<User>[]> {
         const users = await this.userModel.find({}, { password: 0, hash: 0 }).lean();
         return users;
+    }
+
+    async findByUserId(id: string): Promise<User | undefined> {
+        return this.userModel.findOne({ _id: id }).lean();
+    }
+
+    async updateUserRole(id: string, role: string): Promise<User> {
+        return this.userModel.findOneAndUpdate(
+            { _id: id },
+            { role },
+            { new: true }
+        ).lean();
+    }
+
+    async createAdminUser() {
+        try {
+            const adminExists = await this.isUserIdTaken('admin');
+            if (adminExists) {
+                console.log('Admin user already exists');
+                return;
+            }
+
+            const hash = crypto.createHash('sha256').update('admin' + Date.now().toString()).digest('hex');
+            const hashedPassword = crypto.createHash('sha256').update('1234').digest('hex');
+
+            const adminUser = new this.userModel({
+                user_id: 'admin',
+                password: hashedPassword,
+                nickname: 'admin',
+                hash,
+                role: 'admin'
+            });
+
+            const savedUser = await adminUser.save();
+            console.log('Admin user created successfully');
+            return savedUser;
+        } catch (error) {
+            console.error('Failed to create admin user:', error);
+            throw error;
+        }
+    }
+
+    async updateRole(id: string, role: string): Promise<User> {
+        return this.userModel.findOneAndUpdate(
+            { _id: id },
+            { role },
+            { new: true }
+        ).lean();
     }
 }

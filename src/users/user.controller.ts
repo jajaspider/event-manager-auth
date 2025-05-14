@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, Post, Query, Version } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, Post, Query, Version, Request, Patch } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ErrorCodes } from '../constants';
 
@@ -96,4 +96,21 @@ export class UserController {
 
         return { nickname: nickname };
     }
-} 
+
+    @Patch('/:id/role')
+    @Version('0')
+    async updateUser(
+        @Request() req,
+        @Body('role') role: string
+    ) {
+        const id = req.params.id;
+
+        const updatedUser = await this.userService.updateRole(id, role);
+
+        return {
+            user_id: updatedUser.user_id,
+            nickname: updatedUser.nickname,
+            role: updatedUser.role
+        };
+    }
+}

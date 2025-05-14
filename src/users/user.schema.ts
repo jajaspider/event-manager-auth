@@ -1,10 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import * as crypto from 'crypto';
-import { ConflictException } from '@nestjs/common';
 
 
 export type UserDocument = User & Document;
+export const TIMESTAMP_OPTIONS = {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+}
 
 @Schema()
 export class User {
@@ -19,9 +21,14 @@ export class User {
 
     @Prop({ required: true })
     password: string;
+
+    @Prop({ required: true, default: 'user', enum: ['user', 'operator', 'auditor', 'admin'] })
+    role: string;
 }
 
 
 export const UserSchema = SchemaFactory.createForClass(User);
+UserSchema.set('timestamps', TIMESTAMP_OPTIONS);
+UserSchema.set('versionKey', false);
 UserSchema.index({ user_id: 1 });
 UserSchema.index({ nickname: 1 });
