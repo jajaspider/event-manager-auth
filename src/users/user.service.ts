@@ -55,7 +55,7 @@ export class UserService {
     }
 
     async findByUserId(id: string): Promise<User | undefined> {
-        return this.userModel.findOne({ _id: id }).lean();
+        return this.userModel.findOne({ user_id: id }).lean();
     }
 
     async updateUserRole(id: string, role: string): Promise<User> {
@@ -96,7 +96,7 @@ export class UserService {
 
     async updateRole(id: string, role: string): Promise<User> {
         return this.userModel.findOneAndUpdate(
-            { _id: id },
+            { user_id: id },
             { role },
             { new: true }
         ).lean();

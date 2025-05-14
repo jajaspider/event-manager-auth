@@ -30,5 +30,12 @@ export const ErrorCodes = {
             status: 404
         },
 
+    },
+    AUTH: {
+        INVALID_CREDENTIALS: {
+            message: 'Invalid credentials',
+            status: 401,
+            error: 'Unauthorized'
+        },
     }
 } as const;
