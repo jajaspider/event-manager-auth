@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  event-manager-auth:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    image: sonaapi/event-auth:0.0.1
+    hostname: event-manager-auth
+    container_name: event-manager-auth
+    network_mode: host
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '100m'
+        max-file: '3'
+    volumes:
+      - ./config:/app/config
