@@ -50,7 +50,7 @@ export class UserController {
         }
 
         const user = await this.userService.createUser(user_id, password, nickname);
-        return { user_id: user.user_id, nickname: user.nickname, hash: user.hash };
+        return user;
     }
 
     @Get('GetUserId')
