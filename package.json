@@ -1,7 +1,7 @@
 {
-  "name": "nest-app",
-  "version": "0.0.1",
-  "description": "",
+  "name": "event-manager-auth",
+  "version": "1.0.0",
+  "description": "Event Manager Auth Service",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
