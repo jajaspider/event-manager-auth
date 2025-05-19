@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
       network: host
-    image: sonaapi/event-auth:0.0.1
+    image: sonaapi/event-auth:1.0.0
     hostname: event-manager-auth
     container_name: event-manager-auth
     network_mode: host
